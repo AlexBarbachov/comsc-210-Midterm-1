@@ -234,8 +234,35 @@ public:
         cout << endl;
     }
 
+    // prints every other element (e.g 1, 3, 5, etc.)
     void every_other_element() {
-        
+        Node* curr = head;
+
+        // check if empty list
+        if (!curr) {
+            cout << "List is empty." << endl;
+            return;
+        }
+
+        // traverse the list moving two steps at a time
+        while (curr)
+        {
+            // gets data of the current node
+            cout << curr->data << " ";
+
+            // check if there is a node
+            if (curr->next)
+            {
+                curr = curr->next->next; // gets the next node then the next node again thus skipping two lines
+            }
+            else // node doesn't exist
+            {
+                break; // were at the tail so we can't traverse further.
+            }
+        }
+
+        cout << endl;
+
     }
 };
 
