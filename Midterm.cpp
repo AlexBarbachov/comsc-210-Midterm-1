@@ -1,14 +1,17 @@
 #include <iostream>
 using namespace std;
 
+// constants
 const int MIN_NR = 10, MAX_NR = 99, MIN_LS = 5, MAX_LS = 20;
 
 class DoublyLinkedList {
 private:
     struct Node {
-        int data;
-        Node* prev;
-        Node* next;
+        int data; 
+        Node* prev; // pointer to prev node for linked list
+        Node* next; // pointer to next node for linked list
+
+        // constructor
         Node(int val, Node* p = nullptr, Node* n = nullptr) {
             data = val; 
             prev = p;
@@ -16,64 +19,81 @@ private:
         }
     };
 
-    Node* head;
-    Node* tail;
+    Node* head; // beg of list
+    Node* tail; // end of list
 
 public:
+    // initilizes head and tail -> creates empty list
     DoublyLinkedList() { head = nullptr; tail = nullptr; }
 
     void insert_after(int value, int position) {
+
+        // check valid pos
         if (position < 0) {
-            cout << "Position must be >= 0." << endl;
+            cout << "Position must be >= 0." << endl; 
             return;
         }
 
+        // dynamic mem with given value
         Node* newNode = new Node(value);
+
+        // if list is empty newNode becomes both head tail (because the list is of length 1)
         if (!head) {
             head = tail = newNode;
             return;
         }
 
+        // traverse through list
         Node* temp = head;
         for (int i = 0; i < position && temp; ++i)
             temp = temp->next;
 
+
+        // if we got off the the list (hence !temp) then our position was too big
         if (!temp) {
             cout << "Position exceeds list size. Node not inserted.\n";
-            delete newNode;
+            delete newNode; // memory leak avoidance
             return;
         }
+        
+        // link new node into the list
+        newNode->next = temp->next; // new node points to what temp used to point to
+        newNode->prev = temp; // temp is now behind newNode
 
-        newNode->next = temp->next;
-        newNode->prev = temp;
+        // if it wasnt the tail fix node's prev pointer
         if (temp->next)
             temp->next->prev = newNode;
         else
-            tail = newNode;
+            tail = newNode; // if not the newNode is at end so it becomes the tail
         temp->next = newNode;
     }
 
+
+    // deletes the first node that contains a certain value
     void delete_val(int value) {
-        if (!head) return;
+        if (!head) return; // empty list
 
         Node* temp = head;
         
+        // move forward until we get the value
         while (temp && temp->data != value)
             temp = temp->next;
 
+        // val not found exit
         if (!temp) return; 
 
+        // connects prev node to the next node
         if (temp->prev)
             temp->prev->next = temp->next;
         else
-            head = temp->next; 
+            head = temp->next; // if we are deleting the head (first element) we need to create a new head.
 
         if (temp->next)
-            temp->next->prev = temp->prev;
+            temp->next->prev = temp->prev; // connect next to prev
         else
-            tail = temp->prev; 
+            tail = temp->prev; // if we are deleting the tail we need to update the tail
 
-        delete temp;
+        delete temp; // free memory
     }
 
     void delete_pos(int pos) {
