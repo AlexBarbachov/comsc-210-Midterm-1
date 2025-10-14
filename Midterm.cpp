@@ -262,13 +262,66 @@ public:
         }
 
         cout << endl;
-
     }
+
+
 };
 
 int main() {
     cout << MIN_NR + MIN_LS + MAX_NR + MAX_LS;  // dummy statement to avoid compiler warning
 
+    cout << "\nDEMO of LINKED LIST METHODS" << endl;
+
+    DoublyLinkedList list;
+
+    int SIZE;
+    cout << "How long is the list? ";
+    cin >> SIZE;
+
+    cout << endl;
+
+    // populate list of size SIZE
+    for (int i = 0; i < SIZE; i++) {
+        int x;
+        cout << "Enter a number: ";
+        cin >> x;
+
+        list.push_back(x);
+
+    }
+
+    cout << "\nFull list:" << endl;
+    list.print();
+
+    cout << "Reverse list: " << endl;
+    list.print_reverse();
+
+    cout << "Every other element: " << endl;
+    list.every_other_element();
+
+    // pop element
+    list.pop_front();
+
+    cout << "\nFull list:" << endl;
+    list.print();
+
+    cout << "Reverse list: " << endl;
+    list.print_reverse();
+
+    cout << "Every other element: " << endl;
+    list.every_other_element();
     
+
+    // pop last element
+    list.pop_back();
+    cout << "\nFull list:" << endl;
+    list.print();
+
+    cout << "Reverse list: " << endl;
+    list.print_reverse();
+
+    cout << "Every other element: " << endl;
+    list.every_other_element();
+
     return 0;
 }
